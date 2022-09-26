@@ -1,75 +1,72 @@
 DROP DATABASE IF EXISTS SpotifyClone;
 
   CREATE DATABASE IF NOT EXISTS SpotifyClone;
+  
+  USE SpotifyClone;
 
-  CREATE TABLE SpotifyClone.plans(
+  CREATE TABLE plans(
       id_plan INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
       type VARCHAR(45)NOT NULL,
       price DECIMAL(5,2) NOT NULL
   ) engine = InnoDB;
 
-  CREATE TABLE SpotifyClone.users(
-      `id_user` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      `name` VARCHAR(255) NOT NULL,
-      `age` INT NOT NULL,
-      `id_plan` INT NOT NULL,
-      `signature_date` DATE NOT NULL,
-      CONSTRAINT `fk_id_plan`
-      FOREIGN KEY (id_plan) REFERENCES SpotifyClone.plans(id_plan)
+  CREATE TABLE users(
+      id_user INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      name VARCHAR(255) NOT NULL,
+      age INT NOT NULL,
+      id_plan INT NOT NULL,
+      signature_date DATE NOT NULL,
+      FOREIGN KEY (id_plan) REFERENCES plans(id_plan)
   ) engine = InnoDB;
 
-CREATE TABLE SpotifyClone.artists(
-      `id_artist` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      `artist_name` VARCHAR(250)NOT NULL
+  CREATE TABLE artists(
+      id_artist INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      artist_name VARCHAR(250)NOT NULL
   ) engine = InnoDB;
 
-  CREATE TABLE SpotifyClone.albums(
-      `id_album` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      `album_name` VARCHAR(255) NOT NULL,
-      `year_of_release` INT NOT NULL,
-      `id_artist` INT NOT NULL,
-      CONSTRAINT `fk_id_artist`
-      FOREIGN KEY (id_artist) REFERENCES SpotifyClone.artists(id_artist)
+  CREATE TABLE albums(
+      id_album INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      album_name VARCHAR(255) NOT NULL,
+      year_of_release INT NOT NULL,
+      id_artist INT NOT NULL,
+      FOREIGN KEY (id_artist) REFERENCES artists(id_artist)
   ) engine = InnoDB;
 
 
-  CREATE TABLE SpotifyClone.musics(
-      `id_music` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-      `music_name` VARCHAR(255) NOT NULL,
-      `duration_seconds` INT NOT NULL,
-      `id_album` INT NOT NULL,
-      CONSTRAINT `fk_id_album`
-      FOREIGN KEY (id_album) REFERENCES SpotifyClone.albums(id_album)
+  CREATE TABLE musics(
+      id_music INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      music_name VARCHAR(255) NOT NULL,
+      duration_seconds INT NOT NULL,
+      id_album INT NOT NULL,
+      FOREIGN KEY (id_album) REFERENCES albums(id_album)
   ) engine = InnoDB;
 
-    CREATE TABLE SpotifyClone.musics_history(
+    CREATE TABLE musics_history(
       PRIMARY KEY(id_user, id_music),
       id_music INT NOT NULL,
       id_user INT NOT NULL,
-      CONSTRAINT `fk_id_music`
-      FOREIGN KEY (id_music) REFERENCES SpotifyClone.musics(id_music),
-      CONSTRAINT `fk_id_user`
-      FOREIGN KEY (id_user) REFERENCES SpotifyClone.users(id_user),
-      `reproduction_date` TIMESTAMP NOT NULL
+      FOREIGN KEY (id_music) REFERENCES musics(id_music),
+      FOREIGN KEY (id_user) REFERENCES users(id_user),
+      reproduction_date TIMESTAMP NOT NULL
   ) engine = InnoDB;
 
 
-    CREATE TABLE SpotifyClone.followers(
+    CREATE TABLE followers(
        id_user INT NOT NULL,
 	     id_artist INT NOT NULL,
       CONSTRAINT PRIMARY KEY(id_user, id_artist),
-      FOREIGN KEY (id_user) REFERENCES SpotifyClone.users(id_user),
-      FOREIGN KEY (id_artist) REFERENCES SpotifyClone.artists(id_artist)
+      FOREIGN KEY (id_user) REFERENCES users(id_user),
+      FOREIGN KEY (id_artist) REFERENCES artists(id_artist)
   ) engine = InnoDB;
 
-  INSERT INTO SpotifyClone.plans (type, price)
+  INSERT INTO plans (type, price)
   VALUES
     ('gratuito', 0.00),
     ('universitário', 5.99),
     ('pessoal', 6.99),
     ('familiar', 7.99);
 
-  INSERT INTO SpotifyClone.users (name, age, signature_date, id_plan)
+  INSERT INTO users (name, age, signature_date, id_plan)
   VALUES
     ('Barbara Liskov', 82, '2019-10-20', 1),
     ('Robert Cecil Martin', 58, '2017-01-06', 1),
@@ -82,7 +79,7 @@ CREATE TABLE SpotifyClone.artists(
     ('Judith Butler', 45, '2020-05-13', 3),
     ('Jorge Amado', 58, '2017-02-17', 3);
 
-  INSERT INTO SpotifyClone.artists (artist_name)
+  INSERT INTO artists (artist_name)
   VALUES
     ('Beyoncé'),
     ('Queen'),
@@ -91,7 +88,7 @@ CREATE TABLE SpotifyClone.artists(
     ('Blind Guardian'),
     ('Nina Simone');
 
-  INSERT INTO SpotifyClone.albums (album_name, year_of_release, id_artist)
+  INSERT INTO albums (album_name, year_of_release, id_artist)
   VALUES
   ('Renaissance', 2022, 1),
   ('Jazz', 1978, 2),
@@ -102,7 +99,7 @@ CREATE TABLE SpotifyClone.artists(
   ('Somewhere Far Beyond', 2007, 5),
   ('I Put A Spell On You', 2012, 6);
 
-  INSERT INTO SpotifyClone.musics (music_name, duration_seconds, id_album)
+  INSERT INTO musics (music_name, duration_seconds, id_album)
   VALUES
   ("BREAK MY SOUL", 279, 1),
   ("VIRGO’S GROOVE", 369, 1),
@@ -115,7 +112,7 @@ CREATE TABLE SpotifyClone.artists(
   ("The Bard’s Song", 244, 7),
   ("Feeling Good", 100, 8);
 
-  INSERT INTO SpotifyClone.musics_history (reproduction_date, id_music, id_user)
+  INSERT INTO musics_history (reproduction_date, id_music, id_user)
   VALUES
   ("2022-02-28 10:45:55", 8, 1),
   ("2020-05-02 05:30:35", 2, 1),
@@ -134,7 +131,7 @@ CREATE TABLE SpotifyClone.artists(
   ("2022-02-24 21:14:22", 9, 9),
   ("2015-12-13 08:30:22", 3, 10);
 
-  INSERT INTO SpotifyClone.followers (id_user, id_artist)
+  INSERT INTO followers (id_user, id_artist)
   VALUES
   (1, 1),
   (1, 2),
