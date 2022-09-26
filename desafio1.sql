@@ -38,7 +38,9 @@ DROP DATABASE IF EXISTS SpotifyClone;
       music_name VARCHAR(255) NOT NULL,
       duration_seconds INT NOT NULL,
       id_album INT NOT NULL,
-      FOREIGN KEY (id_album) REFERENCES albums(id_album)
+      id_artist INT NOT NULL,
+      FOREIGN KEY (id_album) REFERENCES albums(id_album),
+      FOREIGN KEY (id_artist) REFERENCES artists(id_artist)
   ) engine = InnoDB;
 
     CREATE TABLE musics_history(
@@ -99,18 +101,18 @@ DROP DATABASE IF EXISTS SpotifyClone;
   ('Somewhere Far Beyond', 2007, 5),
   ('I Put A Spell On You', 2012, 6);
 
-  INSERT INTO musics (music_name, duration_seconds, id_album)
+  INSERT INTO musics (music_name, duration_seconds, id_album, id_artist)
   VALUES
-  ("BREAK MY SOUL", 279, 1),
-  ("VIRGO’S GROOVE", 369, 1),
-  ("ALIEN SUPERSTAR", 116, 1),
-  ("Don’t Stop Me Now", 203, 2),
-  ("Under Pressure", 152, 3),
-  ("Como Nossos Pais", 105, 4),
-  ("O Medo de Amar é o Medo de Ser Livre", 207, 5),
-  ("Samba em Paris", 267, 6),
-  ("The Bard’s Song", 244, 7),
-  ("Feeling Good", 100, 8);
+  ("BREAK MY SOUL", 279, 1, 1),
+  ("VIRGO’S GROOVE", 369, 1, 1),
+  ("ALIEN SUPERSTAR", 116, 1, 1),
+  ("Don’t Stop Me Now", 203, 2, 2),
+  ("Under Pressure", 152, 3, 2),
+  ("Como Nossos Pais", 105, 4, 3),
+  ("O Medo de Amar é o Medo de Ser Livre", 207, 5, 3),
+  ("Samba em Paris", 267, 6, 4),
+  ("The Bard’s Song", 244, 7, 5),
+  ("Feeling Good", 100, 8, 6);
 
   INSERT INTO musics_history (reproduction_date, id_music, id_user)
   VALUES
